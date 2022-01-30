@@ -23,3 +23,15 @@ jobs:
       - run: mix archive.install --force hex phx_new
       - run: mix do deps.get, compile
       - run: mix test
+      - slack/notify:
+          color: '#42e2f4'
+          mentions: 'U01HBU00DKM'
+          message: This is a custom message notification
+          webhook: https://hooks.slack.com/services/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
+orbs:
+  slack: circleci/slack@x.y.z
+version: 2.1
+workflows:
+  your-workflow:
+    jobs:
+      - build
