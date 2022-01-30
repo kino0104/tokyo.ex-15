@@ -29,8 +29,31 @@ jobs:
           message: This is a custom message notification
           webhook: https://hooks.slack.com/services/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
 orbs:
-  slack: circleci/slack@4.6.2
+  slack: circleci/slack@4.1
+jobs:
+  notify:
+    docker:
+      - image: 'cimg/base:stable'
+    steps:
+      - slack/notify:
+          custom: |
+            {
+              "blocks": [
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "plain_text",
+                      "text": "*This is a text notification*",
+                      "emoji": true
+                    }
+                  ]
+                }
+              ]
+            }
+          event: always
 workflows:
-  your-workflow:
+  send-notification:
     jobs:
-      - build
+      - notify:
+          context: slack-secrets
